@@ -1,0 +1,23 @@
+{
+  "name": "EventEmitter",
+  "version": "0.0.1",
+  "homepage": "https://github.com/icholy/EventEmitter",
+  "authors": [
+    "Ilia Choly"
+  ],
+  "typescript": {
+    "definition": "build/EventEmitter.d.ts"
+  },
+  "description": "Event Emitter",
+  "main": "build/EventEmitter.js",
+  "keywords": [
+    "event-emitter"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {}
+}
