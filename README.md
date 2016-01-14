@@ -6,21 +6,16 @@
 
 ``` ts
 
-enum FooEvents {
-  EVENT_A,
-  EVENT_B,
-  EVENT_C
-}
+enum Events { A, B, C }
 
-class Foo extends EventEmitter<FooEvents> {}
+class Foo extends EventEmitter<Events> {}
 
 var foo = new Foo();
 
-foo.on(FooEvents.EVENT_A, (payload: string) => {
+foo.addEventListener(Events.A, (payload: string) => {
   console.log(payload);
 });
 
-foo.emit(FooEvents.EVENT_A, "Hello World!");
-
+foo.emitEvent(Events.A, "Hello World!");
 ```
 
