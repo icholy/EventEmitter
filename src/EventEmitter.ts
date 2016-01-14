@@ -25,9 +25,8 @@ class EventEmitterGroup<E> {
    * Remove all event listeners in group
    */
   removeEventListeners(): void {
-    this._unbind.forEach((unbind) => {
-      unbind();
-    });
+    this._unbind.forEach((unbind) => unbind());
+    this._unbind = [];
   }
 
 }
