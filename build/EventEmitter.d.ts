@@ -18,8 +18,10 @@ declare class EventEmitter<E> {
     off(name: E, callback: EventEmitterCallback): void;
     /**
      * Remove all event listeners
+     *
+     * @param name Event to reset (defaults to all)
      */
-    reset(): void;
+    reset(name?: E): void;
     /**
      * Emit an event
      *
