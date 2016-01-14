@@ -5,7 +5,7 @@ class EventEmitter<E> {
 
   private _channels: { [name:number]: EventEmitterCallback[]; } = {};
 
-  on(name: E, callback: EventEmitterCallback): Function {
+  on(name: E, callback: EventEmitterCallback): (...any) => any {
     if (!this._channels.hasOwnProperty(<any>name)) {
       this._channels[<any>name] = [callback];
     } else {
