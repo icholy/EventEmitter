@@ -1,6 +1,37 @@
 
 type EventEmitterCallback = (payload?: any) => any;
 
+class EventEmitterGroup<E> {
+
+  private _emitter: EventEmitter<E>;
+  private _unbind: Function[] = [];
+  
+  constructor(emitter: EventEmitter<E>) {
+    this._emitter = emitter;
+  }
+
+  /**
+   * Add an event listener
+   *
+   * @param name The event to subscribe to 
+   * @param callback The callback function to invoke
+   */
+  on(name: E, callback: EventEmitterCallback): void {
+    let unbind = this._emitter.on(name, callback);
+    this._unbind.push(unbind);
+  }
+
+  /**
+   * Remove all event listeners in group
+   */
+  off(): void {
+    this._unbind.forEach((unbind) => {
+      unbind();
+    });
+  }
+
+}
+
 class EventEmitter<E> {
 
   private _channels: { [name:number]: EventEmitterCallback[]; } = {};
@@ -8,8 +39,7 @@ class EventEmitter<E> {
   /**
    * Add an event listener
    *
-   * @param name The event to subscribe to
-   * @param callback The callback function to invoke
+   * @param name The event to subscribe to @param callback The callback function to invoke
    * @return unbind function
    */
   on(name: E, callback: EventEmitterCallback): (...any) => any {
@@ -64,4 +94,14 @@ class EventEmitter<E> {
       });
     }
   }
+
+  /**
+   * Create a group of listeners that can be unbound all together
+   *
+   * @return a group of listeners
+   */
+  group(): EventEmitterGroup<E> {
+    return new EventEmitterGroup(this);
+  }
+
 }
