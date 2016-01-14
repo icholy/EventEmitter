@@ -5,6 +5,13 @@ class EventEmitter<E> {
 
   private _channels: { [name:number]: EventEmitterCallback[]; } = {};
 
+  /**
+   * Add an event listener
+   *
+   * @param name The event to subscribe to
+   * @param callback The callback function to invoke
+   * @return unbind function
+   */
   on(name: E, callback: EventEmitterCallback): (...any) => any {
     if (!this._channels.hasOwnProperty(<any>name)) {
       this._channels[<any>name] = [callback];
@@ -14,6 +21,12 @@ class EventEmitter<E> {
     return () => this.off(name, callback);
   }
 
+  /**
+   * Remove an event listener
+   *
+   * @param name The event to unsubscribe from
+   * @param callback The callback to unsubscribe
+   */
   off(name: E, callback: EventEmitterCallback): void {
     let channels = this._channels;
     if (channels.hasOwnProperty(<any>name)) {
@@ -25,6 +38,19 @@ class EventEmitter<E> {
     }
   }
 
+  /**
+   * Remove all event listeners
+   */
+  reset(): void {
+    this._channels = {};
+  }
+
+  /**
+   * Emit an event
+   *
+   * @param name The event type
+   * @param payload Optional data passed to listeners
+   */
   emit(name: E, payload?: any): void {
     if (this._channels.hasOwnProperty(<any>name)) {
       this._channels[<any>name].forEach((callback) => {
