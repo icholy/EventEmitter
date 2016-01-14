@@ -40,9 +40,15 @@ class EventEmitter<E> {
 
   /**
    * Remove all event listeners
+   *
+   * @param name Event to reset (defaults to all)
    */
-  reset(): void {
-    this._channels = {};
+  reset(name?: E): void {
+    if (typeof name === 'undefined') {
+      this._channels = {};
+    } else if (this._channels.hasOwnProperty(<any>name)) {
+      delete this._channels[<any>name];
+    }
   }
 
   /**
