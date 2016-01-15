@@ -99,7 +99,7 @@ class EventEmitter<E> {
    *
    * @return a group of listeners
    */
-  createEventGroup(): EventEmitterListenerGroup<E> {
+  createListenerGroup(): EventEmitterListenerGroup<E> {
     return new EventEmitterListenerGroup(this);
   }
 
