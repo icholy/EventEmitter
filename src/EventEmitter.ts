@@ -1,7 +1,7 @@
 
 type EventEmitterCallback = (payload?: any) => any;
 
-class EventEmitterGroup<E> {
+class EventEmitterListenerGroup<E> {
 
   private _emitter: EventEmitter<E>;
   private _unbind: Function[] = [];
@@ -99,8 +99,8 @@ class EventEmitter<E> {
    *
    * @return a group of listeners
    */
-  createEventGroup(): EventEmitterGroup<E> {
-    return new EventEmitterGroup(this);
+  createEventGroup(): EventEmitterListenerGroup<E> {
+    return new EventEmitterListenerGroup(this);
   }
 
 }

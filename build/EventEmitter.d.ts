@@ -1,5 +1,5 @@
 declare type EventEmitterCallback = (payload?: any) => any;
-declare class EventEmitterGroup<E> {
+declare class EventEmitterListenerGroup<E> {
     private _emitter;
     private _unbind;
     constructor(emitter: EventEmitter<E>);
@@ -49,5 +49,5 @@ declare class EventEmitter<E> {
      *
      * @return a group of listeners
      */
-    createEventGroup(): EventEmitterGroup<E>;
+    createEventGroup(): EventEmitterListenerGroup<E>;
 }
