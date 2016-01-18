@@ -95,7 +95,7 @@ class EventEmitter<E> {
       let listeners = this._eventEmitterChannels[<any>name];
       let length = listeners.length;
       for (let i = 0; i < length; i++) {
-        listeners[i]();
+        listeners[i](payload);
       }
     }
   }
