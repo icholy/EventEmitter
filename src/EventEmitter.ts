@@ -16,15 +16,15 @@ class EventEmitterListenerGroup<E> {
    * @param name The event to subscribe to 
    * @param callback The callback function to invoke
    */
-  addEventListener(name: E, callback: EventEmitterCallback): void {
-    let unbind = this._emitter.addEventListener(name, callback);
+  addListener(name: E, callback: EventEmitterCallback): void {
+    let unbind = this._emitter.addListener(name, callback);
     this._unbind.push(unbind);
   }
 
   /**
    * Remove all event listeners in group
    */
-  removeEventListeners(): void {
+  removeAllListeners(): void {
     let unbinds = this._unbind;
     let length  = unbinds.length;
     for (let i = 0; i < length; i++) {
@@ -45,13 +45,13 @@ class EventEmitter<E> {
    * @param name The event to subscribe to @param callback The callback function to invoke
    * @return unbind function
    */
-  addEventListener(name: E, callback: EventEmitterCallback): (...any) => any {
+  addListener(name: E, callback: EventEmitterCallback): (...any) => any {
     if (!this._eventEmitterChannels.hasOwnProperty(<any>name)) {
       this._eventEmitterChannels[<any>name] = [callback];
     } else {
       this._eventEmitterChannels[<any>name].push(callback);
     }
-    return () => this.removeEventListener(name, callback);
+    return () => this.removeListener(name, callback);
   }
 
   /**
@@ -60,7 +60,7 @@ class EventEmitter<E> {
    * @param name The event to unsubscribe from
    * @param callback The callback to unsubscribe
    */
-  removeEventListener(name: E, callback: EventEmitterCallback): void {
+  removeListener(name: E, callback: EventEmitterCallback): void {
     let channels = this._eventEmitterChannels;
     if (channels.hasOwnProperty(<any>name)) {
       let channel = channels[<any>name];
@@ -76,7 +76,7 @@ class EventEmitter<E> {
    *
    * @param name Event to reset (defaults to all)
    */
-  removeEventListeners(name?: E): void {
+  removeAllListeners(name?: E): void {
     if (typeof name === 'undefined') {
       this._eventEmitterChannels = {};
     } else if (this._eventEmitterChannels.hasOwnProperty(<any>name)) {

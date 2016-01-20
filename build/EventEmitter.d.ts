@@ -9,11 +9,11 @@ declare class EventEmitterListenerGroup<E> {
      * @param name The event to subscribe to
      * @param callback The callback function to invoke
      */
-    addEventListener(name: E, callback: EventEmitterCallback): void;
+    addListener(name: E, callback: EventEmitterCallback): void;
     /**
      * Remove all event listeners in group
      */
-    removeEventListeners(): void;
+    removeAllListeners(): void;
 }
 declare class EventEmitter<E> {
     private _eventEmitterChannels;
@@ -23,20 +23,20 @@ declare class EventEmitter<E> {
      * @param name The event to subscribe to @param callback The callback function to invoke
      * @return unbind function
      */
-    addEventListener(name: E, callback: EventEmitterCallback): (...any) => any;
+    addListener(name: E, callback: EventEmitterCallback): (...any) => any;
     /**
      * Remove an event listener
      *
      * @param name The event to unsubscribe from
      * @param callback The callback to unsubscribe
      */
-    removeEventListener(name: E, callback: EventEmitterCallback): void;
+    removeListener(name: E, callback: EventEmitterCallback): void;
     /**
      * Remove all event listeners
      *
      * @param name Event to reset (defaults to all)
      */
-    removeEventListeners(name?: E): void;
+    removeAllListeners(name?: E): void;
     /**
      * Emit an event
      *
