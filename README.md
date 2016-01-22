@@ -12,7 +12,7 @@ class Foo extends EventEmitter<Events> {}
 
 var foo = new Foo();
 
-foo.addEventListener(Events.A, (payload: string) => {
+foo.addListener(Events.A, (payload: string) => {
   console.log(payload);
 });
 
