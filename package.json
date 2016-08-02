@@ -1,6 +1,6 @@
 {
   "name": "EventEmitter",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Event Emitter",
   "main": "build/EventEmitter.js",
   "typescript": {

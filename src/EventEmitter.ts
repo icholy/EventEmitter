@@ -45,7 +45,7 @@ class EventEmitter<E> {
    * @param name The event to subscribe to @param callback The callback function to invoke
    * @return unbind function
    */
-  addListener(name: E, callback: EventEmitterCallback): (...any) => any {
+  addListener(name: E, callback: EventEmitterCallback): Function {
     if (!this._eventEmitterChannels.hasOwnProperty(<any>name)) {
       this._eventEmitterChannels[<any>name] = [callback];
     } else {
