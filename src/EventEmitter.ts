@@ -1,5 +1,5 @@
 
-type EventEmitterCallback = (payload?: any) => any;
+type EventEmitterCallback<T> = (payload?: T) => any;
 
 class EventEmitterListenerGroup<E> {
 
@@ -16,7 +16,7 @@ class EventEmitterListenerGroup<E> {
    * @param name The event to subscribe to 
    * @param callback The callback function to invoke
    */
-  addListener(name: E, callback: EventEmitterCallback): void {
+  addListener<T>(name: E, callback: EventEmitterCallback<T>): void {
     let unbind = this._emitter.addListener(name, callback);
     this._unbind.push(unbind);
   }
@@ -37,7 +37,7 @@ class EventEmitterListenerGroup<E> {
 
 class EventEmitter<E> {
 
-  private _eventEmitterChannels: { [name:number]: EventEmitterCallback[]; } = {};
+  private _eventEmitterChannels: { [name:number]: EventEmitterCallback<any>[]; } = {};
 
   /**
    * Add an event listener
@@ -45,7 +45,7 @@ class EventEmitter<E> {
    * @param name The event to subscribe to @param callback The callback function to invoke
    * @return unbind function
    */
-  addListener(name: E, callback: EventEmitterCallback): Function {
+  addListener<T>(name: E, callback: EventEmitterCallback<T>): Function {
     if (!this._eventEmitterChannels.hasOwnProperty(<any>name)) {
       this._eventEmitterChannels[<any>name] = [callback];
     } else {
@@ -60,7 +60,7 @@ class EventEmitter<E> {
    * @param name The event to unsubscribe from
    * @param callback The callback to unsubscribe
    */
-  removeListener(name: E, callback: EventEmitterCallback): void {
+  removeListener(name: E, callback: EventEmitterCallback<any>): void {
     let channels = this._eventEmitterChannels;
     if (channels.hasOwnProperty(<any>name)) {
       let channel = channels[<any>name];
