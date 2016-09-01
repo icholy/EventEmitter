@@ -37,7 +37,7 @@ class EventEmitterListenerGroup<E> {
 
 class EventEmitter<E> {
 
-  private _eventEmitterChannels: { [name:number]: EventEmitterCallback<any>[]; } = {};
+  private _eventEmitterChannels: { [name: number]: EventEmitterCallback<any>[]; } = {};
 
   /**
    * Add an event listener
@@ -46,10 +46,10 @@ class EventEmitter<E> {
    * @return unbind function
    */
   addListener<T>(name: E, callback: EventEmitterCallback<T>): Function {
-    if (!this._eventEmitterChannels.hasOwnProperty(<any>name)) {
-      this._eventEmitterChannels[<any>name] = [callback];
+    if (!this._eventEmitterChannels.hasOwnProperty(name as any)) {
+      this._eventEmitterChannels[name as any] = [callback];
     } else {
-      this._eventEmitterChannels[<any>name].push(callback);
+      this._eventEmitterChannels[name as any].push(callback);
     }
     return () => this.removeListener(name, callback);
   }
@@ -62,8 +62,8 @@ class EventEmitter<E> {
    */
   removeListener(name: E, callback: EventEmitterCallback<any>): void {
     let channels = this._eventEmitterChannels;
-    if (channels.hasOwnProperty(<any>name)) {
-      let channel = channels[<any>name];
+    if (channels.hasOwnProperty(name as any)) {
+      let channel = channels[name as any];
       let index = channel.indexOf(callback);
       if (index !== -1) {
         channel.splice(index, 1);
@@ -79,8 +79,8 @@ class EventEmitter<E> {
   removeAllListeners(name?: E): void {
     if (typeof name === 'undefined') {
       this._eventEmitterChannels = {};
-    } else if (this._eventEmitterChannels.hasOwnProperty(<any>name)) {
-      delete this._eventEmitterChannels[<any>name];
+    } else if (this._eventEmitterChannels.hasOwnProperty(name as any)) {
+      delete this._eventEmitterChannels[name as any];
     }
   }
 
@@ -91,8 +91,8 @@ class EventEmitter<E> {
    * @param payload Optional data passed to listeners
    */
   emitEvent(name: E, payload?: any): void {
-    if (this._eventEmitterChannels.hasOwnProperty(<any>name)) {
-      let listeners = this._eventEmitterChannels[<any>name];
+    if (this._eventEmitterChannels.hasOwnProperty(name as any)) {
+      let listeners = this._eventEmitterChannels[name as any];
       let length = listeners.length;
       for (let i = 0; i < length; i++) {
         listeners[i](payload);

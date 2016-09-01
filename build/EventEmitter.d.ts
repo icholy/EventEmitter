@@ -1,4 +1,4 @@
-declare type EventEmitterCallback = (payload?: any) => any;
+declare type EventEmitterCallback<T> = (payload?: T) => any;
 declare class EventEmitterListenerGroup<E> {
     private _emitter;
     private _unbind;
@@ -9,7 +9,7 @@ declare class EventEmitterListenerGroup<E> {
      * @param name The event to subscribe to
      * @param callback The callback function to invoke
      */
-    addListener(name: E, callback: EventEmitterCallback): void;
+    addListener<T>(name: E, callback: EventEmitterCallback<T>): void;
     /**
      * Remove all event listeners in group
      */
@@ -23,14 +23,14 @@ declare class EventEmitter<E> {
      * @param name The event to subscribe to @param callback The callback function to invoke
      * @return unbind function
      */
-    addListener(name: E, callback: EventEmitterCallback): Function;
+    addListener<T>(name: E, callback: EventEmitterCallback<T>): Function;
     /**
      * Remove an event listener
      *
      * @param name The event to unsubscribe from
      * @param callback The callback to unsubscribe
      */
-    removeListener(name: E, callback: EventEmitterCallback): void;
+    removeListener(name: E, callback: EventEmitterCallback<any>): void;
     /**
      * Remove all event listeners
      *
