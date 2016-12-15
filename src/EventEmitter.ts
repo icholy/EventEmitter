@@ -25,10 +25,8 @@ class EventEmitterListenerGroup<E> {
    * Remove all event listeners in group
    */
   removeAllListeners(): void {
-    let unbinds = this._unbind.slice();
-    let length  = unbinds.length;
-    for (let i = 0; i < length; i++) {
-      unbinds[i]();
+    for (let unbind = this._unbind.slice()) {
+      unbind();
     }
     this._unbind = [];
   }
@@ -47,10 +45,9 @@ class EventEmitter<E> {
    */
   addListener<T>(name: E, callback: EventEmitterCallback<T>): Function {
     if (!this._eventEmitterChannels.hasOwnProperty(name as any)) {
-      this._eventEmitterChannels[name as any] = [callback];
-    } else {
-      this._eventEmitterChannels[name as any].push(callback);
+      this._eventEmitterChannels[name as any] = [];
     }
+    this._eventEmitterChannels[name as any].push(callback);
     return () => this.removeListener(name, callback);
   }
 
@@ -91,12 +88,12 @@ class EventEmitter<E> {
    * @param payload Optional data passed to listeners
    */
   emitEvent(name: E, payload?: any): void {
-    if (this._eventEmitterChannels.hasOwnProperty(name as any)) {
-      let listeners = this._eventEmitterChannels[name as any].slice();
-      let length = listeners.length;
-      for (let i = 0; i < length; i++) {
-        listeners[i](payload);
-      }
+    if (!this._eventEmitterChannels.hasOwnProperty(name as any)) {
+      return;
+    }
+    let channel = this._eventEmitterChannels[name as any];
+    for (let listener of channel.slice()) {
+      listener(payload);
     }
   }
 
