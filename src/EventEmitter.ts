@@ -25,7 +25,7 @@ class EventEmitterListenerGroup<E> {
    * Remove all event listeners in group
    */
   removeAllListeners(): void {
-    let unbinds = this._unbind;
+    let unbinds = this._unbind.slice();
     let length  = unbinds.length;
     for (let i = 0; i < length; i++) {
       unbinds[i]();
@@ -92,7 +92,7 @@ class EventEmitter<E> {
    */
   emitEvent(name: E, payload?: any): void {
     if (this._eventEmitterChannels.hasOwnProperty(name as any)) {
-      let listeners = this._eventEmitterChannels[name as any];
+      let listeners = this._eventEmitterChannels[name as any].slice();
       let length = listeners.length;
       for (let i = 0; i < length; i++) {
         listeners[i](payload);
