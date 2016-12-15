@@ -1,5 +1,6 @@
 
 var gulp       = require('gulp'),
+    merge      = require('merge-stream'),
     karma      = require('karma').server,
     rimraf     = require('rimraf'),
     uglify     = require('gulp-uglify'),
@@ -9,20 +10,24 @@ var gulp       = require('gulp'),
     typescript = require('gulp-typescript');
 
 var baseTypeScriptTask = function () {
-  return gulp.src('src/*.ts');
+  return gulp.src('src/**/*.ts');
 };
 
 gulp.task('build', function () {
   var tsResult = baseTypeScriptTask()
-      .pipe(sourcemaps.init())
-      .pipe(typescript({
-        target: 'ES5',
-        declarationFiles: true,
-        noExternalResolve: true
-      }))
-      .pipe(uglify())
-      .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest('build'));
+       .pipe(sourcemaps.init())
+       .pipe(typescript({
+         target: 'ES5',
+         declarationFiles: true,
+         noResolve: true
+       }));
+   return merge(
+     tsResult.js
+         .pipe(uglify())
+         .pipe(sourcemaps.write('.'))
+         .pipe(gulp.dest('build')),
+     tsResult.dts.pipe(gulp.dest('build'))
+   );
 });
 
 gulp.task('lint', function () {
